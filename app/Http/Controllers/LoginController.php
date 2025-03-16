@@ -50,4 +50,12 @@ class LoginController extends Controller
         ->withInput($request->only('email', 'remember'))
         ->with('error', 'These credentials do not match our records.');
 }
+
+ // Handle logout
+ public function logout()
+ {
+     Auth::logout();
+     return redirect()->route('login')->with('success', 'Logged out successfully.');
+ }
+
 }

@@ -300,11 +300,7 @@
 											</div>
 											<!--end:Menu sub-->
 										</div>
-										<!--end:Menu item-->
-										<!--begin:Menu item-->
-										
-										<!--end:Menu item-->
-										<!--begin:Menu item-->
+									
 										
 									
 										
@@ -435,6 +431,33 @@
 											</div>
 											<!--end:Menu sub-->
 										</div>
+
+
+                                        <!--begin:Menu item-->
+										@auth
+    @if(auth()->user()->hasVerifiedEmail())
+        <div class="menu-item">
+            <!--begin:Menu link-->
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="menu-link border-0 bg-transparent p-0 w-100 text-start">
+                    <span class="menu-icon">
+                        <i class="ki-duotone ki-element-11 fs-2">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                            <span class="path3"></span>
+                            <span class="path4"></span>
+                        </i>
+                    </span>
+                    <span class="menu-title">Logout</span>
+                </button>
+            </form>
+            <!--end:Menu link-->
+        </div>
+    @endif
+@endauth
+
+										<!--end:Menu item-->
 									
 										
 									

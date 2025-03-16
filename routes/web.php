@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\UserController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,9 +25,7 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
 
-Route::get('/register', [RegitrationController::class, 'showRegistrationForm'])->name('register.form');
 
-Route::post('/register', [RegitrationController::class, 'registerUser'])->name('register.submit');
 
 // // Add this to your routes file
 // Route::get('/email/verify', function () {
@@ -46,8 +45,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/users', [UserController::class, 'index'])->name('users.view');
+
+    Route::get('/register', [RegitrationController::class, 'showRegistrationForm'])->name('register.form');
+
+    Route::post('/register', [RegitrationController::class, 'registerUser'])->name('register.submit');
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/users', [UserController::class, 'index'])->name('users.view');
-});
+
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/users', [UserController::class, 'index'])->name('users.view');
+// });

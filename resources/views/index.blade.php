@@ -54,9 +54,9 @@
         </form>
 
         <!-- Register Link -->
-        <div class="text-center mt-4">
+        {{-- <div class="text-center mt-4">
             <p class="text-muted">Don't have an account? <a href="{{ route('register.form') }}" class="text-primary">Sign up</a></p>
-        </div>
+        </div> --}}
     </div>
 </div>
 
