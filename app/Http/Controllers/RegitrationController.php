@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 //use Illuminate\Support\Facades\Event;
 
 class RegitrationController extends Controller
@@ -29,8 +30,21 @@ class RegitrationController extends Controller
             'role' => ['required', Rule::in(['Admin', 'others', 'SuperAdmin'])],
         ]);
 
+          // Check if an admin is registering another user
+          $loggedInUser = Auth::user();
+
+          if ($loggedInUser) {
+            // If the logged-in user has a prefix, assign it to the new user
+            $prefix = explode('-', $loggedInUser->name)[0];
+            $newUserName = $prefix . '-' . $request->name;
+        } else {
+            // New user (Admin) must provide their own prefix
+            $prefix = 'Ringo'; // Default prefix for Ringo staff
+            $newUserName = $prefix . '-' . $request->name;
+        }
+
         $user = User::create([
-            'name' => $request->name,
+            'name' => $newUserName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
