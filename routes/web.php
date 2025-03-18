@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TicketController;
 
 
 /*
@@ -23,6 +24,8 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 
 // Handle login form submission
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+
+
 
 
 
@@ -51,6 +54,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/register', [RegitrationController::class, 'showRegistrationForm'])->name('register.form');
 
     Route::post('/register', [RegitrationController::class, 'registerUser'])->name('register.submit');
+
+    Route::get('/create', [TicketController::class, 'showTicketForm'])->name('tickets.create');
 });
 
 

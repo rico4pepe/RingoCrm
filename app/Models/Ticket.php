@@ -12,8 +12,8 @@ class Ticket extends Model
 
     protected $fillable = [
         'reference_id',
-        'attachment_path', // Or remove if using separate attachments table
-        'description', // Or 'message' if you prefer
+        'csv_path', // Or remove if using separate attachments table
+        'mesasge', // Or 'message' if you prefer
         'user_id',
         'status', // Add the status field
         'title', // Add the title field

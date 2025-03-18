@@ -55,7 +55,7 @@
                     <!--begin::Secondary button-->
                     <!--end::Secondary button-->
                     <!--begin::Primary button-->
-                    <a href="#" class="btn btn-sm fw-bold btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Create</a>
+                    <a href="" class="btn btn-sm fw-bold btn-primary">Create</a>
                     <!--end::Primary button-->
                 </div>
                 <!--end::Actions-->
