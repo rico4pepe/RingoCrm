@@ -61,6 +61,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/ticketsreply/{ticket}', [TicketController::class, 'replyToTicket'])->name('tickets.reply');
     Route::get('/tickets/{ticket}/assign', [TicketController::class, 'assignTicket'])->name('tickets.assign');
     Route::put('/tickets/{ticket}/assign', [TicketController::class, 'updateAssign'])->name('tickets.updateAssign');
+    Route::post('/tickets/{ticketId}/mark-as-read', [TicketController::class, 'markAsRead'])->name('tickets.markAsRead');
 
 });
 

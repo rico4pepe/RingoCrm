@@ -1,3 +1,7 @@
+@php
+use App\Models\TicketNotification;
+@endphp
+
 @extends('layouts/layout')
 @section('title', 'Dashboard')
 @section('content')
@@ -337,14 +341,15 @@
                                     <th class="min-w-125px">User</th>
                                     <th class="min-w-125px">Ticket Id</th>
                                     <th class="min-w-125px">Ticket Title</th>
+                                    {{-- <th class="min-w-125px">Severity</th> --}}
                                     <th class="min-w-125px">Download file</th>
                                      <!-- Only show Assigned User column for Ringo staff -->
                                      @if(Str::startsWith(Auth::user()->name, 'Ringo-'))
                                      <th class="min-w-125px">Assigned User</th>
                                       @endif
                                     <th class="min-w-125px">Status</th>
-                                   
-                                   
+
+
                                     <th class="min-w-125px">Created At</th>
                                     <th class="min-w-125px">Updated At </th>
                                     <th class="text-end min-w-100px">Actions</th>
@@ -361,13 +366,19 @@
                                     <td class="d-flex align-items-center">
                                         <!--begin:: Avatar -->
                                         {{ $ticket->user->name ?? 'Unknown' }}
-                                      
+
                                         <!--begin::User details-->
                                     </td>
                                     <td>{{ $ticket->reference_id }}</td>
                                     <td>
                                         {{ $ticket->title }}
                                     </td>
+
+                                    {{-- <td>
+                                        <span class="badge badge-{{ $ticket->severity == 'Critical' ? 'danger' : ($ticket->severity == 'High' ? 'warning' : ($ticket->severity == 'Medium' ? 'info' : 'success')) }}">
+                                            {{ $ticket->severity }}
+                                        </span>
+                                    </td> --}}
 
                                     <td>
                                         @if($ticket->csv_path)
@@ -381,7 +392,7 @@
                                     <td>{{ $ticket->assignedUser->name ?? 'Not Assigned' }}</td>
                                     @endif
 
-                                    
+
                                     <td>
                                         <div class="badge badge-light fw-bold">{{ ucfirst($ticket->status) }}</div>
                                     </td>
@@ -389,8 +400,21 @@
                                     <td>{{ $ticket->created_at->format('d M Y, h:i A') }}</td>
                                     <td>{{ $ticket->updated_at->format('d M Y, h:i A') }}</td>
                                     <td class="text-end">
-                                        <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
-                                        <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
+                                        <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm position-relative" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
+                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                        @php
+                                        $unreadNotifications = TicketNotification::where('ticket_id', $ticket->id)
+                                            ->where('user_id', Auth::id())
+                                            ->where('is_read', false)
+                                            ->count();
+                                    @endphp
+                                    @if($unreadNotifications > 0)
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {{ $unreadNotifications }}
+                                        </span>
+                                    @endif
+
+                                    </a>
                                         <!--begin::Menu-->
                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
                                             <!--begin::Menu item-->
@@ -474,5 +498,30 @@
 		<script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
 		<script src="assets/js/custom/utilities/modals/create-app.js"></script>
 		<script src="assets/js/custom/utilities/modals/users-search.js"></script>
+
+        <script> 
+        document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll('.mark-as-read').forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            let ticketId = this.getAttribute('data-ticket-id');
+
+            fetch(`/tickets/${ticketId}/mark-as-read`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    this.querySelector('.badge').remove(); // Hide the badge
+                    window.location.href = this.href; // Navigate to the ticket
+                }
+            }).catch(error => console.error('Error:', error));
+        });
+    });
+});
+
+        </script>
 
 @endpush

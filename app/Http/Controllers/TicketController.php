@@ -12,6 +12,8 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use App\Models\TicketReply;
+use Illuminate\Support\Facades\Log;
+use App\Models\TicketNotification;
 
 
 class TicketController extends Controller
@@ -28,9 +30,9 @@ class TicketController extends Controller
         return view('respond-ticket');
     }
 
-    
 
-    
+
+
 
 
 
@@ -39,7 +41,8 @@ class TicketController extends Controller
     $request->validate([
         'title' => 'required|string|max:255',
         'message' => 'required|string',
-        'csv_file' => 'nullable|file|mimes:csv,txt,xls,xlsx,xlsm|max:2048'
+        'csv_file' => 'nullable|file|mimes:csv,txt,xls,xlsx,xlsm|max:2048',
+        'severity' => 'required|in:Critical,High,Medium,Low' // Validate severity
     ]);
 
     $fileUrl = null;
@@ -49,7 +52,7 @@ class TicketController extends Controller
         $file = $request->file('csv_file');
         $originalName = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
-        
+
         // Upload with custom public_id to preserve extension
         $uploadedFile = Cloudinary::uploadFile($file->getRealPath(), [
             'folder' => 'tickets',
@@ -70,6 +73,7 @@ class TicketController extends Controller
         'user_id' => Auth::id(),
         'status' => 'open',
         'title' => $request->title,
+        'severity' => $request->severity, // Save severity
     ]);
 
     return back()->with('success', 'Ticket created successfully.');
@@ -90,17 +94,17 @@ class TicketController extends Controller
 
          // Get all user IDs that share the same prefix from the users table
          $userIds = User::where('name', 'like', "$prefix-%")->pluck('id')->toArray();
- 
+
 
        // This will dump the $tickets variable and stop execution
          // Fetch tickets that belong to those users
          $tickets = Ticket::whereIn('user_id', $userIds)->get();
     }
 
-   // dd($tickets); 
+   // dd($tickets);
 
     return view('dashboard', compact('tickets'));
-    
+
 }
 
 
@@ -114,6 +118,8 @@ public function replyToTicket(Request $request, $ticketId)
     $ticket = Ticket::findOrFail($ticketId);
     $loggedInUser = Auth::user();
     $userPrefix = explode('-', $loggedInUser->name)[0];
+
+    Log::info('Request Data:', $request->all());
 
     // If the user is not Ringo-, ensure they can only reply to tickets within their prefix
     if (!str_starts_with($loggedInUser->name, 'Ringo-')) {
@@ -130,11 +136,13 @@ public function replyToTicket(Request $request, $ticketId)
         'ticket_id' => $ticket->id,
         'user_id' => $loggedInUser->id,
         'message' => $request->message,
+        'is_read' => false
     ]);
 
       // ✅ Update the ticket status **ONLY IF** a status is provided
       if ($request->filled('status')) {
         $ticket->update(['status' => $request->status]);
+        Log::info('Ticket status updated to: ' . $request->status); // Debugging log
     }
     return redirect()->back()->with('success', 'Reply added successfully.');
 }
@@ -155,6 +163,13 @@ public function showRespondTicketForm($ticketId)
         }
     }
 
+    TicketNotification::where('ticket_id', $ticketId)
+    ->where('user_id', Auth::id())
+    ->update(['is_read' => true]);
+
+
+        //  Mark unread replies as read when user views the ticket
+        $ticket->replies()->where('is_read', false)->update(['is_read' => true]);
     return view('respond-ticket', compact('ticket'));
 }
 
@@ -187,6 +202,17 @@ public function updateAssign(Request $request, $ticketId)
 
     return redirect()->route('dashboard')->with('success', 'Ticket assigned successfully.');
 }
+
+
+public function markAsRead($ticketId)
+{
+    TicketNotification::where('ticket_id', $ticketId)
+        ->where('user_id', Auth::id())
+        ->update(['is_read' => true]);
+
+    return response()->json(['success' => true]);
+}
+
 
 
 }

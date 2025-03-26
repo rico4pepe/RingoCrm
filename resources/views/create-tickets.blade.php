@@ -96,6 +96,17 @@
                                 <input type="text" class="form-control form-control-solid w-100" placeholder="Enter your ticket subject" name="title" required />
                             </div>
 
+                            <!-- Severity -->
+                            <div class="mb-4">
+                                <label class="fs-6 fw-semibold mb-2">Severity</label>
+                                <select class="form-select form-select-solid" name="severity" required>
+                                    <option value="Critical">Critical</option>
+                                    <option value="High">High</option>
+                                    <option value="Medium" selected>Medium</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+
 
                              <!-- Description -->
                              <div class="mb-4">

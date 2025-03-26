@@ -18,6 +18,7 @@ class Ticket extends Model
         'status', // Add the status field
         'title', // Add the title field
         'assigned_user_id', // New field
+        'severity', //  Add severity field
     ];
 
 
@@ -34,6 +35,18 @@ public function replies()
 public function assignedUser()
 {
     return $this->belongsTo(User::class, 'assigned_user_id');
+}
+
+
+
+public function hasUnreadReplies()
+{
+    return $this->replies()->where('is_read', false)->exists();
+}
+
+public function getUnreadRepliesCount()
+{
+    return $this->replies()->where('is_read', false)->count();
 }
 
 }
