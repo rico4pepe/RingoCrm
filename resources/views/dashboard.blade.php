@@ -55,7 +55,7 @@
                     <!--begin::Secondary button-->
                     <!--end::Secondary button-->
                     <!--begin::Primary button-->
-                    <a href="" class="btn btn-sm fw-bold btn-primary">Create</a>
+                    <a href="{{ route('tickets.create') }}" class="btn btn-sm fw-bold btn-primary">Create</a>
                     <!--end::Primary button-->
                 </div>
                 <!--end::Actions-->
@@ -96,8 +96,8 @@
 
                                 <!--end::Export-->
                                 <!--begin::Add user-->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
-                                <i class="ki-duotone ki-plus fs-2"></i>Add User</button>
+                                <a href="{{ route('register.form') }}" class="btn btn-primary"  >
+                                <i class="ki-duotone ki-plus fs-2"></i>Add User</a>
                                 <!--end::Add user-->
                             </div>
                             <!--end::Toolbar-->
@@ -338,13 +338,20 @@
                                     <th class="min-w-125px">Ticket Id</th>
                                     <th class="min-w-125px">Ticket Title</th>
                                     <th class="min-w-125px">Download file</th>
+                                     <!-- Only show Assigned User column for Ringo staff -->
+                                     @if(Str::startsWith(Auth::user()->name, 'Ringo-'))
+                                     <th class="min-w-125px">Assigned User</th>
+                                      @endif
                                     <th class="min-w-125px">Status</th>
+                                   
+                                   
                                     <th class="min-w-125px">Created At</th>
                                     <th class="min-w-125px">Updated At </th>
                                     <th class="text-end min-w-100px">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
+                                @foreach($tickets as $ticket)
                                 <tr>
                                     <td>
                                         <div class="form-check form-check-sm form-check-custom form-check-solid">
@@ -353,38 +360,34 @@
                                     </td>
                                     <td class="d-flex align-items-center">
                                         <!--begin:: Avatar -->
-                                        <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                            <a href="apps/user-management/users/view.html">
-                                                <div class="symbol-label">
-                                                    <img src="assets/media/avatars/300-6.jpg" alt="Emma Smith" class="w-100" />
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <!--end::Avatar-->
-                                        <!--begin::User details-->
-                                        <div class="d-flex flex-column">
-                                            <a href="apps/user-management/users/view.html" class="text-gray-800 text-hover-primary mb-1">Emma Smith</a>
-                                            <span>smith@kpmg.com</span>
-                                        </div>
+                                        {{ $ticket->user->name ?? 'Unknown' }}
+                                      
                                         <!--begin::User details-->
                                     </td>
-                                    <td>Administrator</td>
+                                    <td>{{ $ticket->reference_id }}</td>
                                     <td>
-                                        <div class="badge badge-light fw-bold">Yesterday</div>
+                                        {{ $ticket->title }}
                                     </td>
 
                                     <td>
-                                        <a href = "" > Download Me </a>
+                                        @if($ticket->csv_path)
+                                        <a href="{{ $ticket->csv_path }}" target="_blank">Download</a>
+                                    @else
+                                        No File
+                                    @endif
+                                    </td>
+                                    <!-- Only show Assigned User column for Ringo staff -->
+                                    @if(Str::startsWith(Auth::user()->name, 'Ringo-'))
+                                    <td>{{ $ticket->assignedUser->name ?? 'Not Assigned' }}</td>
+                                    @endif
+
+                                    
+                                    <td>
+                                        <div class="badge badge-light fw-bold">{{ ucfirst($ticket->status) }}</div>
                                     </td>
 
-                                    <td>
-                                        <div class="badge badge-light fw-bold">Open</div>
-                                    </td>
-
-                                    <td>
-                                        23:04
-                                    </td>
-                                    <td>25 Jul 2024, 10:10 pm</td>
+                                    <td>{{ $ticket->created_at->format('d M Y, h:i A') }}</td>
+                                    <td>{{ $ticket->updated_at->format('d M Y, h:i A') }}</td>
                                     <td class="text-end">
                                         <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
                                         <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
@@ -392,24 +395,30 @@
                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a href="apps/user-management/users/view.html" class="menu-link px-3">Edit</a>
+                                                <a href=" {{ route('tickets.show', $ticket->id) }} " class="menu-link px-3">Response</a>
                                             </div>
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3" data-kt-users-table-filter="delete_row">Delete</a>
+                                            < <!--div class="menu-item px-3">
+                                                <a href="{{--  --}}" class="menu-link px-3" data-kt-users-table-filter="delete_row">Delete</a>
                                             </div>
+                                            -->
                                             <!--end::Menu item-->
 
                                              <!--begin::Menu item-->
+                                             @if(Str::startsWith(Auth::user()->name, 'Ringo-') && Auth::user()->role === 'SuperAdmin')
                                              <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3" data-kt-users-table-filter="assign_row">Assign User</a>
+                                                <a href=" {{ route('tickets.assign', $ticket->id) }}" class="menu-link px-3" data-kt-users-table-filter="assign_row">Assign User</a>
                                             </div>
+                                            @endif
                                             <!--end::Menu item-->
+
                                         </div>
                                         <!--end::Menu-->
                                     </td>
                                 </tr>
+
+                                @endforeach
                             </tbody>
                         </table>
                         <!--end::Table-->

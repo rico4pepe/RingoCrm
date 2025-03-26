@@ -16,12 +16,12 @@
 		<!--end::Fonts-->
 		<!--begin::Vendor Stylesheets(used for this page only)-->
 
-		<link href="assets/plugins/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
-		<link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<!--end::Vendor Stylesheets-->
 		<!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
-		<link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
-		<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+		<link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 		<!--end::Global Stylesheets Bundle-->
 		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
 
@@ -73,10 +73,10 @@
 											<span class="menu-arrow d-lg-none"></span>
 										</span>
 										<!--end:Menu link-->
-									
+
 									</div>
 									<!--end:Menu item-->
-									
+
 									<!--begin:Menu item-->
 									<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item here show menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
 										<!--begin:Menu link-->
@@ -87,11 +87,11 @@
 										<!--end:Menu link-->
 										<!--begin:Menu sub-->
 										<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-250px">
-										
+
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
-												<a class="menu-link" href="apps/calendar.html">
+												<a class="menu-link" href="{{ route('dashboard') }}">
 													<i class="ki-duotone ki-rocket fs-2">
 															<span class="path1"></span>
 															<span class="path2"></span>
@@ -102,11 +102,11 @@
 											</div>
 											<!--end:Menu item-->
 
-                                               
+
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
-												<a class="menu-link" href="apps/calendar.html">
+												<a class="menu-link" href="{{ route('tickets.create') }}">
 													<i class="ki-duotone ki-rocket fs-2">
 															<span class="path1"></span>
 															<span class="path2"></span>
@@ -130,7 +130,7 @@
 										<!--end:Menu link-->
 										<!--begin:Menu sub-->
 										<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-250px">
-										
+
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
@@ -145,7 +145,7 @@
 											</div>
 											<!--end:Menu item-->
 
-                                               
+
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
@@ -178,13 +178,13 @@
 										<!--end:Menu sub-->
 									</div>
 									<!--end:Menu item-->
-									
+
 								</div>
 								<!--end::Menu-->
 							</div>
 							<!--end::Menu wrapper-->
 							<!--begin::Navbar-->
-							
+
 							<!--end::Navbar-->
 						</div>
 						<!--end::Header wrapper-->
@@ -243,19 +243,19 @@
 													</i>
 												</span>
 												<span class="menu-title">Dashboards</span>
-												
+
 											</span>
 											<!--end:Menu link-->
-											
+
 											<!--end:Menu sub-->
 										</div>
 										<!--end:Menu item-->
 										<!--begin:Menu item-->
-										
-										
-									
 
-									
+
+
+
+
 										<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
 											<!--begin:Menu link-->
 											<span class="menu-link">
@@ -288,7 +288,7 @@
 												<!--begin:Menu item-->
 												<div class="menu-item">
 													<!--begin:Menu link-->
-													<a class="menu-link" href="pages/pricing/table.html">
+													<a class="menu-link" href="{{ route('tickets.create') }}">
 														<span class="menu-bullet">
 															<span class="bullet bullet-dot"></span>
 														</span>
@@ -300,12 +300,12 @@
 											</div>
 											<!--end:Menu sub-->
 										</div>
-									
-										
-									
-										
-					
-										
+
+
+
+
+
+
 										<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
 											<!--begin:Menu link-->
 											<span class="menu-link">
@@ -349,12 +349,12 @@
 														<!--begin:Menu item-->
 														<div class="menu-item">
 															<!--begin:Menu link-->
-															<a class="menu-link" href="apps/user-management/users/view.html">
+															<!--<a class="menu-link" href="apps/user-management/users/view.html">
 																<span class="menu-bullet">
 																	<span class="bullet bullet-dot"></span>
 																</span>
 																<span class="menu-title">View User</span>
-															</a>
+															</a> -->
 															<!--end:Menu link-->
 														</div>
 														<!--end:Menu item-->
@@ -375,59 +375,8 @@
 													<!--end:Menu sub-->
 												</div>
 												<!--end:Menu item-->
-												<!--begin:Menu item-->
-												<div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-													<!--begin:Menu link-->
-													<span class="menu-link">
-														<span class="menu-bullet">
-															<span class="bullet bullet-dot"></span>
-														</span>
-														<span class="menu-title">Roles</span>
-														<span class="menu-arrow"></span>
-													</span>
-													<!--end:Menu link-->
-													<!--begin:Menu sub-->
-													<div class="menu-sub menu-sub-accordion">
-														<!--begin:Menu item-->
-														<div class="menu-item">
-															<!--begin:Menu link-->
-															<a class="menu-link" href="apps/user-management/roles/list.html">
-																<span class="menu-bullet">
-																	<span class="bullet bullet-dot"></span>
-																</span>
-																<span class="menu-title">Roles List</span>
-															</a>
-															<!--end:Menu link-->
-														</div>
-														<!--end:Menu item-->
-														<!--begin:Menu item-->
-														<div class="menu-item">
-															<!--begin:Menu link-->
-															<a class="menu-link" href="apps/user-management/roles/view.html">
-																<span class="menu-bullet">
-																	<span class="bullet bullet-dot"></span>
-																</span>
-																<span class="menu-title">View Role</span>
-															</a>
-															<!--end:Menu link-->
-														</div>
-														<!--end:Menu item-->
-													</div>
-													<!--end:Menu sub-->
-												</div>
-												<!--end:Menu item-->
-												<!--begin:Menu item-->
-												<div class="menu-item">
-													<!--begin:Menu link-->
-													<a class="menu-link" href="apps/user-management/permissions.html">
-														<span class="menu-bullet">
-															<span class="bullet bullet-dot"></span>
-														</span>
-														<span class="menu-title">Permissions</span>
-													</a>
-													<!--end:Menu link-->
-												</div>
-												<!--end:Menu item-->
+												
+												
 											</div>
 											<!--end:Menu sub-->
 										</div>
@@ -458,15 +407,15 @@
 @endauth
 
 										<!--end:Menu item-->
-									
-										
-									
-									
-									
-										
-									
 
-									
+
+
+
+
+
+
+
+
 									</div>
 									<!--end::Menu-->
 								</div>

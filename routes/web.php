@@ -26,7 +26,7 @@ Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
 
-
+Route::get('/tickets', [TicketController::class, 'viewTickets'])->name('tickets.index');
 
 
 
@@ -45,9 +45,7 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 
 // ✅ Protect dashboard for only verified users
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [TicketController::class, 'viewTickets'])->name('dashboard');
 
     Route::get('/users', [UserController::class, 'index'])->name('users.view');
 
@@ -56,10 +54,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/register', [RegitrationController::class, 'registerUser'])->name('register.submit');
 
     Route::get('/create', [TicketController::class, 'showTicketForm'])->name('tickets.create');
+
+    Route::post('/createtickets', [TicketController::class, 'store'])->name('tickets.store');
+    Route::get('/tickets/{ticket}', [TicketController::class, 'showRespondTicketForm'])->name('tickets.show');
+
+    Route::post('/ticketsreply/{ticket}', [TicketController::class, 'replyToTicket'])->name('tickets.reply');
+    Route::get('/tickets/{ticket}/assign', [TicketController::class, 'assignTicket'])->name('tickets.assign');
+    Route::put('/tickets/{ticket}/assign', [TicketController::class, 'updateAssign'])->name('tickets.updateAssign');
+
 });
 
 
+
+
+
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-// Route::middleware(['auth'])->group(function () {
-//     Route::get('/users', [UserController::class, 'index'])->name('users.view');
-// });
+

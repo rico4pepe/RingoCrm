@@ -8,7 +8,7 @@
     <div class="login-form w-400px">
         <!-- Logo -->
         <div class="login-logo text-center mb-4">
-            <img src="{{ asset('assets/media/logos/farmhub-logo.png') }}" alt="FarmHub Logo">
+            <img src="{{ asset('assets/media/logos/farmhub-logo.png') }}" alt="Ringo Logo">
         </div>
 
         <!-- Login Form -->

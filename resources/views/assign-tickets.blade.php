@@ -82,50 +82,39 @@
                         @endif
 
 
-                        <form method="POST" id="ticket-form" class="form w-100 h-100 d-flex flex-column" action="{{ route('tickets.store') }}" enctype="multipart/form-data">
+                        <form method="POST" id="ticket-form" class="form w-100 h-100 d-flex flex-column" action="{{ route('tickets.updateAssign', $ticket->id)}}" enctype="multipart/form-data">
                             @csrf <!-- CSRF token for security -->
+                            @method('PUT')
+
+                      
                     
                             <!-- Title -->
                             <div class="text-center mb-4">
-                                <h1 class="mb-3">Create Ticket</h1>
+                                <h1 class="mb-3">Assign Ticket: {{ $ticket->title }}</h1>
                             </div>
                     
-                            <!-- Subject -->
-                            <div class="mb-4">
-                                <label class="fs-6 fw-semibold mb-2">Subject</label>
-                                <input type="text" class="form-control form-control-solid w-100" placeholder="Enter your ticket subject" name="title" required />
-                            </div>
 
-
-                             <!-- Description -->
-                             <div class="mb-4">
-                                <label class="fs-6 fw-semibold mb-2">Description</label>
-                                <textarea class="form-control form-control-solid w-100" rows="4" name="message" placeholder="Type your ticket description" required></textarea>
-                            </div>
+                            
                     
                                         <!-- Show Status field ONLY if user's prefix is "Ringo-" -->
-                                @if(Str::startsWith(Auth::user()->name, 'Ringo-'))
+                              
                                 <div class="mb-4">
-                                    <label class="fs-6 fw-semibold mb-2">Status</label>
-                                    <select class="form-select form-select-solid" name="status" required>
-                                        <option value="open" selected>Open</option>
-                                        <option value="in_progress">In Progress</option>
-                                        <option value="resolved">Resolved</option>
-                                        <option value="closed">Closed</option>
+                                    <label class="fs-6 fw-semibold mb-2">Staff</label>
+                                    <select class="form-select form-select-solid" name="assigned_user_id" required>
+                                        <option value="">Select a Ringo Staff</option>
+                                        @foreach ($ringoUsers as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
-                            @endif
+                          
                     
-                            <!-- File Upload -->
-                            <div class="mb-4">
-                                <label class="fs-6 fw-semibold mb-2">Attachments (CSV, Excel)</label>
-                                <input type="file" class="form-control w-100" name="csv_file" accept=".csv,.xls,.xlsx" required />
-                            </div>
+                            
                     
                             <!-- Submit Button -->
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary w-100">
-                                    <span class="indicator-label">Submit</span>
+                                    <span class="indicator-label">Assign Ticket</span>
                                     <span class="indicator-progress">Please wait...
                                         <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                     </span>

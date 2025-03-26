@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
+
 
 class Ticket extends Model
 {
@@ -17,18 +17,23 @@ class Ticket extends Model
         'user_id',
         'status', // Add the status field
         'title', // Add the title field
+        'assigned_user_id', // New field
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($ticket) {
-            $ticket->reference_id = Str::uuid()->toString(); // Generates a unique UUID
-        });
-    }
 
     public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+{
+    return $this->belongsTo(User::class, 'user_id');
+}
+
+public function replies()
+{
+    return $this->hasMany(TicketReply::class, 'ticket_id');
+}
+
+public function assignedUser()
+{
+    return $this->belongsTo(User::class, 'assigned_user_id');
+}
+
 }
