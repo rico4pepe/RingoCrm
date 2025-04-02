@@ -37,6 +37,11 @@ public function assignedUser()
     return $this->belongsTo(User::class, 'assigned_user_id');
 }
 
+public function supervisor()
+{
+    return $this->belongsTo(User::class, 'supervisor_id');
+}
+
 
 
 public function hasUnreadReplies()

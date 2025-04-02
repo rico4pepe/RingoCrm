@@ -14,6 +14,7 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use App\Models\TicketReply;
 use Illuminate\Support\Facades\Log;
 use App\Models\TicketNotification;
+use Carbon\Carbon;
 
 
 class TicketController extends Controller
@@ -194,10 +195,14 @@ public function updateAssign(Request $request, $ticketId)
 {
     $request->validate([
         'assigned_user_id' => 'required|exists:users,id',
+        'supervisor_id' => 'required|exists:users,id',
+        'sla_hours' => 'required|integer', // New field for SLA duration in hours
     ]);
 
     $ticket = Ticket::findOrFail($ticketId);
     $ticket->assigned_user_id = $request->assigned_user_id;
+    $ticket->supervisor_id = $request->supervisor_id;
+    $ticket->sla_due_at = Carbon::now()->addHours($request->sla_hours);
     $ticket->save();
 
     return redirect()->route('dashboard')->with('success', 'Ticket assigned successfully.');

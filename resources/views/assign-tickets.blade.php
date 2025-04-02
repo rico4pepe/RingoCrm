@@ -86,18 +86,18 @@
                             @csrf <!-- CSRF token for security -->
                             @method('PUT')
 
-                      
-                    
+
+
                             <!-- Title -->
                             <div class="text-center mb-4">
                                 <h1 class="mb-3">Assign Ticket: {{ $ticket->title }}</h1>
                             </div>
-                    
 
-                            
-                    
+
+
+
                                         <!-- Show Status field ONLY if user's prefix is "Ringo-" -->
-                              
+
                                 <div class="mb-4">
                                     <label class="fs-6 fw-semibold mb-2">Staff</label>
                                     <select class="form-select form-select-solid" name="assigned_user_id" required>
@@ -107,10 +107,21 @@
                                         @endforeach
                                     </select>
                                 </div>
-                          
-                    
-                            
-                    
+
+
+                                <div class="mb-4">
+                                    <label class="fs-6 fw-semibold mb-2">Supervisor</label>
+                                    <select class="form-select form-select-solid" name="supervisor_id" required>
+                                        <option value="">Select a Ringo Staff</option>
+                                        @foreach ($ringoUsers as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+
+
+
                             <!-- Submit Button -->
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary w-100">
@@ -122,7 +133,7 @@
                             </div>
                         </form>
                     </div>
-                    
+
                     <!--end::Card header-->
                     <!--begin::Card body-->
 
