@@ -68,11 +68,13 @@
 									<!--begin:Menu item-->
 									<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-here-bg menu-lg-down-accordion me-0 me-lg-2">
 										<!--begin:Menu link-->
+                                        <a href = "{{ route('dashboard.index') }}" class="menu-link">
 										<span class="menu-link">
 											<span class="menu-title">Dashboards</span>
 											<span class="menu-arrow d-lg-none"></span>
 										</span>
 										<!--end:Menu link-->
+                                        </a>
 
 									</div>
 									<!--end:Menu item-->
@@ -375,8 +377,8 @@
 													<!--end:Menu sub-->
 												</div>
 												<!--end:Menu item-->
-												
-												
+
+
 											</div>
 											<!--end:Menu sub-->
 										</div>

@@ -13,12 +13,18 @@ class Ticket extends Model
     protected $fillable = [
         'reference_id',
         'csv_path', // Or remove if using separate attachments table
-        'mesasge', // Or 'message' if you prefer
+        'mesasge', //
         'user_id',
         'status', // Add the status field
         'title', // Add the title field
         'assigned_user_id', // New field
         'severity', //  Add severity field
+        'categories', //  Add categories field
+        'supervisor_id', // Add supervisor field
+        'closed_by_id', // Add closed_by_id field
+        'sla_due_at', // Add sla_due_at field
+        'closed_at', // Add closed_at field
+
     ];
 
 
@@ -40,6 +46,11 @@ public function assignedUser()
 public function supervisor()
 {
     return $this->belongsTo(User::class, 'supervisor_id');
+}
+
+public function category()
+{
+    return $this->belongsTo(Category::class, 'category_id');
 }
 
 

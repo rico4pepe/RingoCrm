@@ -15,6 +15,9 @@ use App\Models\TicketReply;
 use Illuminate\Support\Facades\Log;
 use App\Models\TicketNotification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TicketAssignedMail;
+use Illuminate\Support\Facades\DB;
 
 
 class TicketController extends Controller
@@ -202,8 +205,12 @@ public function updateAssign(Request $request, $ticketId)
     $ticket = Ticket::findOrFail($ticketId);
     $ticket->assigned_user_id = $request->assigned_user_id;
     $ticket->supervisor_id = $request->supervisor_id;
-    $ticket->sla_due_at = Carbon::now()->addHours($request->sla_hours);
+    $ticket->sla_due_at = Carbon::now()->addHours($request->sla_hours); // Calculate SLA due date
     $ticket->save();
+
+       // Send email to assigned user and supervisor
+       Mail::to($ticket->assignedUser->email)->send(new TicketAssignedMail($ticket));
+      Mail::to($ticket->supervisor->email)->send(new TicketAssignedMail($ticket));
 
     return redirect()->route('dashboard')->with('success', 'Ticket assigned successfully.');
 }
@@ -217,6 +224,33 @@ public function markAsRead($ticketId)
 
     return response()->json(['success' => true]);
 }
+
+
+public function getUserTickets()
+{
+    $user = auth()->user(); // Get the logged-in user
+
+    if (str_starts_with($user->name, 'Ringo-')) {
+        // Ringo users see all tickets
+        $tickets = Ticket::with(['assignedUser', 'supervisor'])
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+    } else {
+        // Non-Ringo users only see their prefix-related tickets
+        $prefix = explode('-', $user->name)[0]; // Extract the prefix (e.g., "Shago" from "Shago-JohnDoe")
+
+        $tickets = Ticket::whereHas('user', function ($q) use ($prefix) {
+                        $q->where('name', 'like', "$prefix-%");
+                    })
+                    ->with(['assignedUser', 'supervisor'])
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+    }
+
+    return view('tickets.history', compact('tickets'));
+}
+
+
 
 
 

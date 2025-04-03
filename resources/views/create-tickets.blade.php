@@ -84,12 +84,12 @@
 
                         <form method="POST" id="ticket-form" class="form w-100 h-100 d-flex flex-column" action="{{ route('tickets.store') }}" enctype="multipart/form-data">
                             @csrf <!-- CSRF token for security -->
-                    
+
                             <!-- Title -->
                             <div class="text-center mb-4">
                                 <h1 class="mb-3">Create Ticket</h1>
                             </div>
-                    
+
                             <!-- Subject -->
                             <div class="mb-4">
                                 <label class="fs-6 fw-semibold mb-2">Subject</label>
@@ -108,12 +108,25 @@
                             </div>
 
 
+                                 <!-- Category -->
+                                 <div class="mb-4">
+                                    <label class="fs-6 fw-semibold mb-2">Catgories</label>
+                                    <select class="form-select form-select-solid" name="categories" required>
+                                        <option value="">Select Category</option>
+                                        <option value="Critical">Critical</option>
+                                        <option value="High">High</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="Low">Low</option>
+                                    </select>
+                                </div>
+
+
                              <!-- Description -->
                              <div class="mb-4">
                                 <label class="fs-6 fw-semibold mb-2">Description</label>
                                 <textarea class="form-control form-control-solid w-100" rows="4" name="message" placeholder="Type your ticket description" required></textarea>
                             </div>
-                    
+
                                         <!-- Show Status field ONLY if user's prefix is "Ringo-" -->
                                 @if(Str::startsWith(Auth::user()->name, 'Ringo-'))
                                 <div class="mb-4">
@@ -126,13 +139,13 @@
                                     </select>
                                 </div>
                             @endif
-                    
+
                             <!-- File Upload -->
                             <div class="mb-4">
                                 <label class="fs-6 fw-semibold mb-2">Attachments (CSV, Excel)</label>
                                 <input type="file" class="form-control w-100" name="csv_file" accept=".csv,.xls,.xlsx" required />
                             </div>
-                    
+
                             <!-- Submit Button -->
                             <div class="text-center">
                                 <button type="submit" class="btn btn-primary w-100">
@@ -144,7 +157,7 @@
                             </div>
                         </form>
                     </div>
-                    
+
                     <!--end::Card header-->
                     <!--begin::Card body-->
 

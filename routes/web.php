@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\DashboardController;
 
 
 /*
@@ -46,6 +47,11 @@ Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'
 // ✅ Protect dashboard for only verified users
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [TicketController::class, 'viewTickets'])->name('dashboard');
+
+    Route::get('/exco/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/kpi/dashboard', [DashboardController::class, 'fetchKpiData'])->name('dashboard.fetchKPIData');
+   // Route::get('/table/dashboard', [DashboardController::class, 'fetchTicketTables'])->name('dashboard.fetchTicketTables');
+    Route::get('/chart/dashboard', [DashboardController::class, 'fetchChartData'])->name('dashboard.fetchChartData');
 
     Route::get('/users', [UserController::class, 'index'])->name('users.view');
 

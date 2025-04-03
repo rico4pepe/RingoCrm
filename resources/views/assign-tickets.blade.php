@@ -119,7 +119,12 @@
                                     </select>
                                 </div>
 
-
+                                     <!-- SLA Duration Field -->
+                    <div class="mb-4">
+                    <label class="fs-6 fw-semibold mb-2">SLA Duration (in hours)</label>
+                    <input type="number" class="form-control form-control-solid"
+               name="sla_hours" min="1" placeholder="Enter SLA in hours" required>
+                </div>
 
 
                             <!-- Submit Button -->
