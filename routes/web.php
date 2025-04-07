@@ -8,6 +8,7 @@ use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\CategoryController;
 
 
 /*
@@ -50,8 +51,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/exco/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/kpi/dashboard', [DashboardController::class, 'fetchKpiData'])->name('dashboard.fetchKPIData');
-   // Route::get('/table/dashboard', [DashboardController::class, 'fetchTicketTables'])->name('dashboard.fetchTicketTables');
+    Route::get('/table/dashboard', [DashboardController::class, 'fetchTicketTables'])->name('dashboard.fetchTicketTables');
     Route::get('/chart/dashboard', [DashboardController::class, 'fetchChartData'])->name('dashboard.fetchChartData');
+
+    // Move the view route above the parameter route
+Route::get('/category/view', [CategoryController::class, 'index'])->name('category.view');
+Route::get('/category', [CategoryController::class, 'showCategoryForm'])->name('category.create');
+Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
+Route::put('/category/{category}', [CategoryController::class, 'update'])->name('category.update');
+Route::delete('/category/{category}', [CategoryController::class, 'destroy'])->name('category.destroy');
+
 
     Route::get('/users', [UserController::class, 'index'])->name('users.view');
 

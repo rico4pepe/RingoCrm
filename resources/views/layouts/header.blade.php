@@ -121,6 +121,51 @@
 										</div>
 										<!--end:Menu sub-->
 									</div>
+                                    <!--end:Menu item-->
+                                    <!--begin:Menu item-->
+                                  
+                                    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item here show menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+										<!--begin:Menu link-->
+										<span class="menu-link">
+											<span class="menu-title">Category</span>
+											<span class="menu-arrow d-lg-none"></span>
+										</span>
+										<!--end:Menu link-->
+										<!--begin:Menu sub-->
+										<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-250px">
+
+											<!--begin:Menu item-->
+											<div class="menu-item">
+												<!--begin:Menu link-->
+												<a class="menu-link" href="{{ route('category.view') }}">
+													<i class="ki-duotone ki-rocket fs-2">
+															<span class="path1"></span>
+															<span class="path2"></span>
+														</i>
+													<span class="menu-title">View Categories</span>
+												</a>
+												<!--end:Menu link-->
+											</div>
+											<!--end:Menu item-->
+
+
+											<!--begin:Menu item-->
+											<div class="menu-item">
+												<!--begin:Menu link-->
+												<a class="menu-link" href="{{ route('category.create') }}">
+													<i class="ki-duotone ki-rocket fs-2">
+															<span class="path1"></span>
+															<span class="path2"></span>
+														</i>
+													<span class="menu-title">Create Category</span>
+												</a>
+												<!--end:Menu link-->
+											</div>
+											<!--end:Menu item-->
+										</div>
+										<!--end:Menu sub-->
+									</div>
+                                
 									<!--end:Menu item-->
 									<!--begin:Menu item-->
                                     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item here show menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">

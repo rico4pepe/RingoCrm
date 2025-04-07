@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TicketAssignedMail;
 use Illuminate\Support\Facades\DB;
+use App\Models\Category;
 
 
 class TicketController extends Controller
@@ -26,19 +27,16 @@ class TicketController extends Controller
 
     public function showTicketForm(){
 
-        return view('create-tickets');
+        $categories = Category::all();
+
+        return view('create-tickets',compact('categories'));
     }
 
     public function showmyForm(){
+        
 
         return view('respond-ticket');
     }
-
-
-
-
-
-
 
     public function store(Request $request)
 {

@@ -26,7 +26,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">Ticket Management</li>
+                        <li class="breadcrumb-item text-muted">Category Management</li>
                         <!--end::Item-->
                         <!--begin::Item-->
                         <li class="breadcrumb-item">
@@ -34,7 +34,7 @@
                         </li>
                         <!--end::Item-->
                         <!--begin::Item-->
-                        <li class="breadcrumb-item text-muted">create tickets</li>
+                        <li class="breadcrumb-item text-muted">create categories</li>
                         <!--end::Item-->
                     </ul>
                     <!--end::Breadcrumb-->
@@ -82,68 +82,21 @@
                         @endif
 
 
-                        <form method="POST" id="ticket-form" class="form w-100 h-100 d-flex flex-column" action="{{ route('tickets.store') }}" enctype="multipart/form-data">
+                        <form method="POST" id="ticket-form" class="form w-100 h-100 d-flex flex-column" action="{{ route('category.store') }}" enctype="multipart/form-data">
                             @csrf <!-- CSRF token for security -->
 
                             <!-- Title -->
                             <div class="text-center mb-4">
-                                <h1 class="mb-3">Create Ticket</h1>
+                                <h1 class="mb-3">Create Category</h1>
                             </div>
 
-                            <!-- Subject -->
+                            <!-- Category -->
                             <div class="mb-4">
-                                <label class="fs-6 fw-semibold mb-2">Subject</label>
-                                <input type="text" class="form-control form-control-solid w-100" placeholder="Enter your ticket subject" name="title" required />
-                            </div>
-
-                            <!-- Severity -->
-                            <div class="mb-4">
-                                <label class="fs-6 fw-semibold mb-2">Severity</label>
-                                <select class="form-select form-select-solid" name="severity" required>
-                                    <option value="Critical">Critical</option>
-                                    <option value="High">High</option>
-                                    <option value="Medium" selected>Medium</option>
-                                    <option value="Low">Low</option>
-                                </select>
+                                <label class="fs-6 fw-semibold mb-2">Category</label>
+                                <input type="text" class="form-control form-control-solid w-100" placeholder="Enter your Category" name="category" required />
                             </div>
 
 
-                                 <!-- Category -->
-                                 <div class="mb-4">
-                                    <label class="fs-6 fw-semibold mb-2">Catgories</label>
-                                    <select class="form-select form-select-solid" name="categories" required>
-                                        <option value="">Select Category</option>
-                                        @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->category_name }}</option>
-                                    @endforeach
-                                                                    </select>
-                                </div>
-
-
-                             <!-- Description -->
-                             <div class="mb-4">
-                                <label class="fs-6 fw-semibold mb-2">Description</label>
-                                <textarea class="form-control form-control-solid w-100" rows="4" name="message" placeholder="Type your ticket description" required></textarea>
-                            </div>
-
-                                        <!-- Show Status field ONLY if user's prefix is "Ringo-" -->
-                                @if(Str::startsWith(Auth::user()->name, 'Ringo-'))
-                                <div class="mb-4">
-                                    <label class="fs-6 fw-semibold mb-2">Status</label>
-                                    <select class="form-select form-select-solid" name="status" required>
-                                        <option value="open" selected>Open</option>
-                                        <option value="in_progress">In Progress</option>
-                                        <option value="resolved">Resolved</option>
-                                        <option value="closed">Closed</option>
-                                    </select>
-                                </div>
-                            @endif
-
-                            <!-- File Upload -->
-                            <div class="mb-4">
-                                <label class="fs-6 fw-semibold mb-2">Attachments (CSV, Excel)</label>
-                                <input type="file" class="form-control w-100" name="csv_file" accept=".csv,.xls,.xlsx" />
-                            </div>
 
                             <!-- Submit Button -->
                             <div class="text-center">
