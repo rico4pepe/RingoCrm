@@ -13,6 +13,7 @@
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
         "masbug/flysystem-google-drive-ext": "^2.4",
+        "predis/predis": "*",
         "spatie/flysystem-dropbox": "*"
     },
     "require-dev": {

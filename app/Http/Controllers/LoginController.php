@@ -31,11 +31,11 @@ class LoginController extends Controller
         $user = Auth::user();
 
         // ✅ Check for email verification
-        if (!$user->email_verified_at) {
-            Log::error('Login failed: Invalid credentials');
-            Auth::logout();
-            return back()->with('error', 'Please verify your email before logging in.');
-        }
+        // if (!$user->email_verified_at) {
+        //     Log::error('Login failed: Invalid credentials');
+        //     Auth::logout();
+        //     return back()->with('error', 'Please verify your email before logging in.');
+        // }
 
         Log::info('User login successful: ' . $user->email);
         Log::info('User verified: ' . ($user->email_verified_at ? 'true' : 'false'));
